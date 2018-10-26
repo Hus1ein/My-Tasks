@@ -1,0 +1,41 @@
+
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 28px;
+}
+
+.sign-up-app-name {
+    font-size: 50px;
+    color: #0079bf;
+    text-align: center;
+    margin-top: 100px;
+}
+
+.my-container {
+    margin-top: 50px;
+    margin-left: 35%;
+    margin-right: 35%;
+    box-shadow: rgba(0, 0, 0, 0.1) 0 10px 10px;
+    border: 2px solid #0747A6;
+    border-radius: 5px;
+    elevation: 100deg;
+    padding: 10px 50px 50px;
+    background-color: rgb(255, 255, 255);
+    width: 30%;
+}
+
+.form-group {
+    margin-top: 30px !important;
+}
+
+#submit-log-in {
+    margin-top: 30px !important;
+    width: 100% !important;
+}
+
+#errors {
+    color: red;
+    font-size: 17px;
+}
