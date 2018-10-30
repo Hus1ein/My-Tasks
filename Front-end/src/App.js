@@ -7,22 +7,13 @@ import SignUp from './Components/SignUp/SignUp';
 
 class App extends Component {
 
-  changeView = (view) => {
-      this.setState ({
-          'view': view
-      });
-  };
-
-  state = {
-      'view': <Home changeView={this.changeView}/>,
-  };
 
   render() {
 
     return (
         <Router>
             <div>
-                <Route exact path="/home" component={Home} />
+                <Route exact path="/" component={Home} />
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/signup" component={SignUp} />
             </div>

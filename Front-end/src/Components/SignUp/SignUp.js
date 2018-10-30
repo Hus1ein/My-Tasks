@@ -36,7 +36,7 @@ class SignUp extends Component {
                 bodyFormData.set("password", this.state.password);
                 axios({
                     method: 'post',
-                    url: 'http://localhost/MyTasks/index.php?r=api/signup',
+                    url: 'http://localhost/MyTasks/Back-end/index.php?r=api/signup',
                     data: bodyFormData,
                     config: { headers: {'Content-Type': 'multipart/form-data' }}
                 })

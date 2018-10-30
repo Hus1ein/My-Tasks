@@ -1,8 +1,13 @@
 
 .navbar {
-    height:70px !important;
+    height:80px !important;
     box-shadow: rgba(0, 0, 0, 0.1) 0 10px 10px;
     background-color: #0079bf !important;
+}
+
+.my-logo {
+    width: 60px !important;
+    height: 60px !important;
 }
 
 .home-container{
@@ -13,30 +18,54 @@
 }
 
 .navbar-logo {
+    margin-left: 10px;
+    margin-top: 10px;
+    font-size: 40px;
     color: white !important;
-    font-size: 30px !important;
 }
 
-.navbar-nav > li > a {
-    padding-top:25px !important;
-    padding-bottom:25px !important;
+.my-navbar-link {
+    padding-top:30px !important;
+    padding-bottom:30px !important;
     font-size: 23px;
     color: white !important;
 }
 
-.navbar-nav > li > button {
-    margin-top:18px;
-    margin-bottom:18px;
+.navbar-nav > li > form >button {
+    margin-top:23px;
+    margin-bottom:23px;
     margin-left: 10px   ;
 }
 
-.first-section {
+#first-section {
     padding-top: 150px;
     padding-bottom: 70px;
 }
 
-.second-section {
+#second-section {
     background-color: #0747A6;
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+#third-section {
+    padding-top: 70px;
+    padding-bottom: 70px;
+    background-color: #F4F5F7;
+}
+
+#fourth-section {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+#our-team {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+#follow-us {
+    background-color: #F4F5F7;
     padding-top: 70px;
     padding-bottom: 70px;
 }
@@ -81,12 +110,113 @@
     font-size: 30px;
 }
 
+.third-section-first-title {
+    color: #0079bf;
+    font-weight: bold;
+    font-size: 60px;
+    text-align: center;
+}
+
+.third-section-first-third-paragraph {
+    text-align: center;
+    font-size: 50px;
+    margin-top: 30px;
+}
+
+.third-section-second-paragraph {
+    text-align: center;
+    font-size: 50px;
+    margin-top: 50px;
+}
+
+.fourth-section-title {
+    margin-top: 100px;
+    margin-left: 35px;
+    font-size: 60px;
+}
+
+.fourth-section-paragraph {
+    margin-top: 10px;
+    margin-left: 43px;
+    font-size: 40px;
+}
+
+.fifth-section-title {
+    font-weight: bold;
+    font-size: 60px;
+    text-align: center;
+}
+
+.fifth-section-paragraph {
+    text-align: center;
+    font-size: 40px;
+    margin-top: 30px;
+}
+
+.sixth-section-title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.sixth-section-paragraph {
+    text-align: center;
+}
+
+.sixth-section-input {
+    width: 50% !important;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.sixth-section-button {
+    width: 30% !important;
+    margin-left: 35%;
+    margin-right: 35%;
+}
+
 #first-section-image {
     margin-left: 85px;
 }
 
 #second-section-image {
     margin-left: 35px;
+}
+
+#third-section-first-image{
+    width: 40%;
+    margin-top: 50px;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+#third-section-second-image{
+    height: 110px;
+    width: 25%;
+    margin-top: 70px;
+    margin-left: 38%;
+    margin-right: 37%;
+}
+
+#third-section-third-image{
+    width: 40%;
+    margin-top: 50px;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+#fourth-section-image {
+    width:700px;
+    margin-left: 35px;
+    margin-right: 100px;
+}
+
+.fifth-section-image{
+    width: 40%;
+    height: 200px;
+    margin-top: 50px;
+    margin-left: 30%;
+    margin-right: 30%;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 10px 10px;
 }
 
 
@@ -97,4 +227,77 @@
 
 .login-button {
     color: white;
+}
+
+/* Style all font awesome icons */
+.social-media {
+    width: 30%;
+    margin-right: 30%;
+    margin-left: 37%;
+}
+
+.social-media-my-tasks {
+    margin-top: 10px;
+    width: 8%;
+    margin-right: 46%;
+    margin-left: 46%;
+}
+
+.fa-home {
+    margin: 5px;
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50%;
+}
+
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+.fa-facebook {
+    background: #3B5998;
+    color: white;
+}
+
+
+.fa-linkedin {
+    background: #55ACEE;
+    color: white;
+}
+
+.fa-twitter {
+    background: #55ACEE;
+    color: white;
+}
+
+.footer {
+    font-size: 25px;
+    padding-top: 15px;
+    left: 0;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+    background-color: #F4F5F7;
+    text-align: center;
+}
+
+#myBtn {
+    position: fixed;
+    bottom: 30px;
+    float: right;
+    right: 5%;
+    left: 95%;
+    width: 50px;
+    height: 50px;
+
+}
+
+#myBtn:hover {
+    width: 55px;
+    height: 55px;
 }
