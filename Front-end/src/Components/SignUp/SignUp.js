@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import "../../Styles/signup.css";
 import SignUpView from './SignUpView';
 import axios from "axios";
+import app from "../../base";
+import { withRouter } from "react-router";
 
 class SignUp extends Component {
 
@@ -13,7 +15,7 @@ class SignUp extends Component {
         'errors': undefined
     };
 
-    onSignUpClickHandler = (event) => {
+    onSignUpClickHandler = async (event) => {
         event.preventDefault();
         let firstName = this.state.firstName;
         let lastName = this.state.lastName;
@@ -29,7 +31,7 @@ class SignUp extends Component {
             } else {
                 this.setState({'errors': undefined});
                 let self = this;
-                let bodyFormData = new FormData();
+                /*let bodyFormData = new FormData();
                 bodyFormData.set("firstName", this.state.firstName);
                 bodyFormData.set("lastName", this.state.lastName);
                 bodyFormData.set("email", this.state.email);
@@ -46,7 +48,17 @@ class SignUp extends Component {
                     })
                     .catch(function (error) {
                         console.log(error);
-                    });
+                    });*/
+
+                try {
+                    const user = await app
+                        .auth()
+                        .createUserWithEmailAndPassword(this.state.email, this.state.password);
+                    console.log(user);
+                    //this.props.history.push("/");
+                } catch (error) {
+                    alert(error);
+                }
             }
 
         }else {

@@ -20,6 +20,7 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    <script src="https://cdn.firebase.com/js/client/1.0.17/firebase.js"></script>
     <title>My Tasks</title>
   </head>
   <body>
@@ -37,5 +38,19 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+
+    <script src="https://www.gstatic.com/firebasejs/5.7.2/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyAUrWOuUij_SW85IK5D8F087xOaL3aio7k",
+            authDomain: "mytasks-eb7b1.firebaseapp.com",
+            databaseURL: "https://mytasks-eb7b1.firebaseio.com",
+            projectId: "mytasks-eb7b1",
+            storageBucket: "mytasks-eb7b1.appspot.com",
+            messagingSenderId: "850290436771"
+        };
+        firebase.initializeApp(config);
+    </script>
   </body>
 </html>

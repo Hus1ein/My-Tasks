@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "../../Styles/login.css";
 import LoginView from './LoginView';
 import axios from "axios";
+import app from "../../base";
 
 class Login extends Component {
 
@@ -11,7 +12,7 @@ class Login extends Component {
         'errors': undefined
     };
 
-    onLoginClickHandler = (event) => {
+    onLoginClickHandler = async (event) => {
         event.preventDefault();
         let username = this.state.username;
         let password = this.state.password;
@@ -20,7 +21,7 @@ class Login extends Component {
 
             this.setState({'errors': undefined});
             let self = this;
-            let bodyFormData = new FormData();
+            /*let bodyFormData = new FormData();
             bodyFormData.set("username", this.state.username);
             bodyFormData.set("password", this.state.password);
             axios({
@@ -36,7 +37,17 @@ class Login extends Component {
             })
             .catch(function (error) {
                 console.log(error);
-            });
+            });*/
+            try {
+                const user = await app
+                    .auth()
+                    .signInWithEmailAndPassword(this.state.username, this.state.password);
+
+                console.log(user);
+                this.props.history.push("/go");
+            } catch (error) {
+                alert(error);
+            }
 
         }else {
             this.setState({'errors': "Enter valid username and password, don't use white space"});

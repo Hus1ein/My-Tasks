@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^3.3.7",
+    "firebase": "^5.7.2",
     "font-awesome": "^4.7.0",
     "react": "^16.5.2",
     "react-bootstrap": "^0.32.4",
