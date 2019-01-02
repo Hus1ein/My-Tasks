@@ -1,0 +1,28 @@
+
+body {
+    background: #d4d7dd;
+}
+
+.my-task {
+    background: rgb(0, 121, 191);
+    border-radius: 3px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 20px;
+    margin: 40px;
+}
+
+.task-list-title {
+    color: white;
+}
+
+.new-task-button {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 20px;
+}
+
+.new-task-button:hover {
+    background: #5cb85c !important;
+    color: white !important;
+}

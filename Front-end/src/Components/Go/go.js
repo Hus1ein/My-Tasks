@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import TasksList from "../TasksList/TasksList";
 
 
 class Go extends Component {
@@ -7,7 +8,7 @@ class Go extends Component {
     render() {
         return (
             <div>
-                <h1>Go</h1>
+                <TasksList></TasksList>
             </div>
         );
     }

@@ -1,0 +1,39 @@
+
+ul li {
+    list-style: none;
+}
+
+ul {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.task {
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    padding: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.task:hover {
+    background: #f1f2f4;
+}
+
+.task:hover .task-edit{
+    display: block;
+}
+
+.task-edit {
+    display: none;
+}
+
+.task-title {
+    font-weight: bold;
+}
+
+.my-icon {
+    margin-right: 20px;
+}
