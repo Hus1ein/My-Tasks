@@ -1,0 +1,38 @@
+
+
+#my-dialog-create-task {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    position: absolute;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 100px;
+    background: #e6e6e6;
+    border-radius: 5px;
+    display: none;
+}
+
+
+.create-new-task-form {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.submit-create-new-task, .cancel-create-new-task {
+    width: 40%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
+}
+
+.submit-create-new-task:hover {
+    background: #5cb85c !important;
+    color: white !important;
+}
+
+.cancel-create-new-task:hover {
+    background: red !important;
+    color: white !important;
+}

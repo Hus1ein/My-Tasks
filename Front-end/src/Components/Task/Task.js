@@ -4,27 +4,23 @@ import app from "../../base";
 
 class Task extends Component {
 
-    state = {
-        'username': undefined,
-        'password': undefined,
-        'errors': undefined
+    onDragStart = (event, id) => {
+        this.props.onDragStart(event, this.props.task.id, this.props.category);
     };
-
-
-
     render() {
 
         return (
-            <div className="task">
+            <div id={"task-" + this.props.task.id} className="task"  draggable onDragStart={(e) => this.onDragStart(e, this.props.task.id)}>
+                <span className="task-edit" onClick={this.props.deleteTask}>
+                        <i className="fa fa-remove" title="Delete Task"/>
+                </span>
                 <p className="task-title">{this.props.task.title}</p>
                 <p><i className="fa fa-clock-o"/> {this.props.task.date}</p>
-                    <span className="task-edit">
-                        <i className="fa fa-edit my-icon" title="Edit Task"/>
-                        <i className="fa fa-remove" title="Delete Task"/>
-                    </span>
             </div>
+
         );
     }
+
 }
 
 export default Task;

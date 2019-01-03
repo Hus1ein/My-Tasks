@@ -8,163 +8,79 @@ require("firebase/firestore");
 
 class TasksList extends Component {
 
-    state = {
-        'todo': [],
-        'doing': [],
-        'done': []
-    };
-
-    currentUserId;
-
-    componentWillMount() {
-        this.getData();
-    }
-
-    getData = () => {
-        this.currentUserId = firebase.auth().currentUser.uid;
-        var db = firebase.firestore();
-
-        db.settings({
-            timestampsInSnapshots: true
-        });
-        var self = this;
-        var todoList = [];
-        var doingList = [];
-        var doneList = [];
-
-        db.collection("todo").where("userId", "==", this.currentUserId)
-            .get()
-            .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    todoList.push({
-                        'id': doc.id,
-                        'title': doc.data().title,
-                        'Content': doc.data().content,
-                        'date': (new Date()).toDateString()
-                    });
-
-                });
-                self.setState(
-                    {
-                        'todo': todoList,
-                    }
-                );
-            })
-            .catch(function(error) {
-                console.log("Error getting documents: ", error);
-            });
-
-        db.collection("doing").where("userId", "==", this.currentUserId)
-            .get()
-            .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    doingList.push({
-                        'id': doc.id,
-                        'title': doc.data().title,
-                        'Content': doc.data().content,
-                        'date': (new Date()).toDateString()
-                    });
-
-                });
-                self.setState(
-                    {
-                        'doing': doingList,
-                    }
-                );
-
-            })
-            .catch(function(error) {
-                console.log("Error getting documents: ", error);
-            });
-
-        db.collection("done").where("userId", "==", this.currentUserId)
-            .get()
-            .then(function(querySnapshot) {
-                querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
-                    doneList.push({
-                        'id': doc.id,
-                        'title': doc.data().title,
-                        'Content': doc.data().content,
-                        'date': (new Date()).toDateString()
-                    });
-
-                });
-                self.setState(
-                    {
-                        'done': doneList,
-                    }
-                );
-            })
-            .catch(function(error) {
-                console.log("Error getting documents: ", error);
-            });
-
-    };
-
-    createNewTask = (category) => {
-        var db = firebase.firestore();
-
-        db.settings({
-            timestampsInSnapshots: true
-        });
-        db.collection(category).add(
-            {
-                'title': "This is task",
-                'Content': "this is task's content",
-                //'date': (new Date()).toDateString(),
-                'userId': this.currentUserId
-            }
-        );
-    };
-
-
-
     render() {
         return (
             <div>
-                <div className="col-sm-3 my-task">
+                <div className="col-sm-3 my-task" id="category-todo"
+                     onDragOver={(e)=>this.props.onDragOver(e, "todo")}
+                     onDragLeave={(e)=>this.props.onDragLeave(e, "todo")}
+                     onDrop={(e)=>{this.props.onDrop(e, "todo")}}>
                     <h1 className="task-list-title">To Do</h1>
                     <ul>
                         {
-                            this.state.todo.map((member) => {
+                            this.props.todoList.map((member) => {
                                 return (
-                                    <li key={member.id}><Task task={member}></Task></li>
+                                    <li key={member.id}>
+                                        <Task
+                                            task={member}
+                                            category={"todo"}
+                                            deleteTask={() => this.props.deleteTask(member.id, "todo")}
+                                            onDragStart={this.props.onDragStart}
+                                        />
+                                    </li>
                                 )
                             })
                         }
                     </ul>
-                    <button className="btn btn-default new-task-button" onClick={() => this.createNewTask("todo")}>Add another card</button>
+                    <button className="btn btn-default new-task-button" onClick={() => this.props.openDialogToCreateTask("todo")}>Add another card</button>
                 </div>
 
-                <div className="col-sm-3 my-task">
+                <div className="col-sm-3 my-task" id="category-doing"
+                     onDragOver={(e)=>this.props.onDragOver(e, "doing")}
+                     onDragLeave={(e)=>this.props.onDragLeave(e, "doing")}
+                     onDrop={(e)=>{this.props.onDrop(e, "doing")}}>
                     <h1 className="task-list-title">Doing</h1>
                     <ul>
                         {
-                            this.state.doing.map((member) => {
+                            this.props.doingList.map((member) => {
                                 return (
-                                    <li key={member.id}><Task task={member}></Task></li>
+                                    <li key={member.id}>
+                                        <Task
+                                            task={member}
+                                            category={"doing"}
+                                            deleteTask={() => this.props.deleteTask(member.id, "doing")}
+                                            onDragStart={this.props.onDragStart}
+                                        />
+                                    </li>
                                 )
                             })
                         }
                     </ul>
-                    <button className="btn btn-default new-task-button" onClick={() => this.createNewTask("doing")}>Add another card</button>
+                    <button className="btn btn-default new-task-button" onClick={() => this.props.openDialogToCreateTask("doing")}>Add another card</button>
                 </div>
 
-                <div className="col-sm-3 my-task">
+                <div className="col-sm-3 my-task" id="category-done"
+                     onDragOver={(e)=>this.props.onDragOver(e, "done")}
+                     onDragLeave={(e)=>this.props.onDragLeave(e, "done")}
+                     onDrop={(e)=>{this.props.onDrop(e, "done")}}>
                     <h1 className="task-list-title">Done</h1>
                     <ul>
                         {
-                            this.state.done.map((member) => {
+                            this.props.doneList.map((member) => {
                                 return (
-                                    <li key={member.id}><Task task={member}></Task></li>
+                                    <li key={member.id}>
+                                        <Task
+                                            task={member}
+                                            category={"doing"}
+                                            deleteTask={() => this.props.deleteTask(member.id, "done")}
+                                            onDragStart={this.props.onDragStart}
+                                        />
+                                    </li>
                                 )
                             })
                         }
                     </ul>
-                    <button className="btn btn-default new-task-button" onClick={() => this.createNewTask("done")}>Add another card</button>
+                    <button className="btn btn-default new-task-button" onClick={() => this.props.openDialogToCreateTask("done")}>Add another card</button>
                 </div>
 
             </div>
