@@ -4,7 +4,7 @@ import './App.css';
 import Home from './Components/Home/home';
 import Login from './Components/Login/Login';
 import SignUp from './Components/SignUp/SignUp';
-import Go from './Components/Go/go';
+import Dashboard from './Components/Dashboard/dashboard';
 import PrivateRoute from "./PrivateRoute";
 import app from "./base";
 
@@ -37,8 +37,8 @@ class App extends Component {
             <div>
                 <PrivateRoute
                     exact
-                    path="/go"
-                    component={Go}
+                    path="/dashboard"
+                    component={Dashboard}
                     authenticated={this.state.authenticated}
                 />
                 <Route exact path="/" component={Home} />

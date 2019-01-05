@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import TasksList from "../TasksList/TasksList";
-import "../../Styles/go.css";
+import "../../Styles/dashboard.css";
+import axios from "axios";
+import app from "../../base";
+
 const firebase = require("firebase");
 
 
 
-class Go extends Component {
+class Dashboard extends Component {
 
     currentCategory;
     currentUserId;
@@ -17,6 +20,11 @@ class Go extends Component {
 
     componentWillMount() {
         this.getData();
+        this.getUserInfo();
+    }
+
+    componentDidMount() {
+        this.changeHeightOfSideBar();
     }
 
     openDialogToCreateTask = (category) => {
@@ -46,7 +54,7 @@ class Go extends Component {
 
             var newTask = {
                 'title': this.state.taskTitle,
-                'Content': this.state.taskDescription,
+                'content': this.state.taskDescription,
                 //'date': (new Date()).toDateString(),
                 'userId': this.currentUserId
             };
@@ -60,6 +68,7 @@ class Go extends Component {
                         category: allTasksByCategory
                     });
                     self.closeDialogToCreateTask(event);
+                    self.changeHeightOfSideBar();
             });
         }
     };
@@ -101,7 +110,9 @@ class Go extends Component {
                                         category: array
                                     });
                                 }
-                            } 
+                            }
+
+                            self.changeHeightOfSideBar();
                         }
                     });
                 })
@@ -111,8 +122,35 @@ class Go extends Component {
         }
     };
 
+    getUserInfo = () => {
+        let self = this;
+        axios({
+            method: 'get',
+            url: 'https://json.geoiplookup.io',
+        })
+            .then(function (response) {
+                console.log(response.data);
+                self.setState({
+                    'userInfo': {
+                        'ip': response.data.ip,
+                        'country': response.data.country_name,
+                        'currency': response.data.currency_name,
+                        'timezone': response.data.timezone_name,
+                        'city': response.data.district,
+                        'longitude': response.data.longitude,
+                        'latitude': response.data.latitude
+                    }
+                });
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+
     getData = () => {
         this.currentUserId = firebase.auth().currentUser.uid;
+        console.log(firebase.auth().currentUser);
         var db = firebase.firestore();
 
         db.settings({
@@ -131,7 +169,7 @@ class Go extends Component {
                     todoList.push({
                         'id': doc.id,
                         'title': doc.data().title,
-                        'Content': doc.data().content,
+                        'content': doc.data().content,
                         'date': (new Date()).toDateString()
                     });
 
@@ -154,7 +192,7 @@ class Go extends Component {
                     doingList.push({
                         'id': doc.id,
                         'title': doc.data().title,
-                        'Content': doc.data().content,
+                        'content': doc.data().content,
                         'date': (new Date()).toDateString()
                     });
 
@@ -178,7 +216,7 @@ class Go extends Component {
                     doneList.push({
                         'id': doc.id,
                         'title': doc.data().title,
-                        'Content': doc.data().content,
+                        'content': doc.data().content,
                         'date': (new Date()).toDateString()
                     });
 
@@ -188,6 +226,7 @@ class Go extends Component {
                         'done': doneList,
                     }
                 );
+                console.log(self.state);
             })
             .catch(function(error) {
                 console.log("Error getting documents: ", error);
@@ -198,11 +237,23 @@ class Go extends Component {
     onDragStart = (event, id, category) => {
         event.dataTransfer.setData("id", id);
         event.dataTransfer.setData("category", category);
+        if (category === 'todo') {
+            document.getElementsByClassName("drop-here")[1].hidden  = false;
+            document.getElementsByClassName("drop-here")[2].hidden  = false;
+
+        } else if (category === 'doing') {
+            document.getElementsByClassName("drop-here")[0].hidden = false;
+            document.getElementsByClassName("drop-here")[2].hidden = false;
+        } else if (category === 'done') {
+            document.getElementsByClassName("drop-here")[0].hidden  = false;
+            document.getElementsByClassName("drop-here")[1].hidden  = false;
+        }
+
     };
 
     onDragOver = (event, category) => {
         event.preventDefault();
-        document.getElementById("category-" + category).style.background = "#5cb85c";
+        document.getElementById("category-" + category).style.background = "#5bc0de";
     };
 
     onDragLeave = (event, category) => {
@@ -212,14 +263,19 @@ class Go extends Component {
 
     onDrop = (event, endCategory) => {
         event.preventDefault();
+        document.getElementsByClassName("drop-here")[0].hidden  = true;
+        document.getElementsByClassName("drop-here")[1].hidden  = true;
+        document.getElementsByClassName("drop-here")[2].hidden  = true;
         let id = event.dataTransfer.getData("id");
+        console.log(id);
         let beginCategory = event.dataTransfer.getData("category");
         document.getElementById("category-" + endCategory).style.background = "rgb(0, 121, 191)";
         let beginCategoryElements = this.state[beginCategory];
         for (let i = 0; i < beginCategoryElements.length; i++) {
             if (beginCategoryElements[i].id === id) {
                 let endCategoryElements = this.state[endCategory];
-                endCategoryElements.push(beginCategoryElements[i]);
+                let movedTask = beginCategoryElements[i];
+                endCategoryElements.push(movedTask);
                 beginCategoryElements.splice(i, 1);
                 //TODO change data on firebase
                 this.setState(
@@ -228,9 +284,63 @@ class Go extends Component {
                             endCategory: endCategoryElements
                          }
                 );
+
+                let self = this;
+                var db = firebase.firestore();
+
+                db.settings({
+                    timestampsInSnapshots: true
+                });
+
+                var newTask = {
+                    'title': movedTask.title,
+                    'content': movedTask.content,
+                    //'date': (new Date()).toDateString(),
+                    'userId': self.currentUserId
+                };
+                db.collection(endCategory).add(newTask)
+                    .then(function (response) {
+                        for (let j = 0; j < self.state[endCategory].length; j++) {
+                            if (endCategoryElements[j].id == id)  {
+                                endCategoryElements[j].id = response.id;
+                                console.log(endCategoryElements[j].id);
+                                self.setState({endCategory: endCategoryElements});
+                            }
+                        }
+                    });
+
+                db.collection(beginCategory).where("userId", "==", this.currentUserId)
+                    .get()
+                    .then(function(querySnapshot) {
+                        querySnapshot.forEach(function(doc) {
+                            if (doc.id == id) {
+                                doc.ref.delete();
+                            }
+                        });
+                    })
+                    .catch(function(error) {
+                        console.log("Error getting documents: ", error);
+                    });
+
                 break;
             }
         }
+    };
+
+    logOutHandler = async () => {
+        await app
+            .auth()
+            .signOut();
+        this.props.history.push("/");
+    };
+
+    changeHeightOfSideBar = () => {
+        var body = document.body,
+            html = document.documentElement;
+
+        var height = Math.max( body.scrollHeight, body.offsetHeight,
+            html.clientHeight, html.scrollHeight, html.offsetHeight );
+        document.getElementById("side-bar").style.height = height + "px";
     };
 
     render() {
@@ -247,6 +357,8 @@ class Go extends Component {
                         onDragLeave={this.onDragLeave}
                         onDrop={this.onDrop}
                         onDragStart={this.onDragStart}
+                        userInfo={this.state.userInfo}
+                        logOutHandler={this.logOutHandler}
                     />
                 </div>
                 <div id="my-dialog-create-task">
@@ -270,4 +382,4 @@ class Go extends Component {
     }
 }
 
-export default Go;
+export default Dashboard;

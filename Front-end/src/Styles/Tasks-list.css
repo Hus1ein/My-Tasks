@@ -26,3 +26,13 @@ body {
     background: #5cb85c !important;
     color: white !important;
 }
+
+.drop-here {
+    text-align: center;
+    border: 3px dotted black;
+    height: 100px;
+    font-size: 30px !important;
+    padding-top: 25px !important;
+    font-weight: bold;
+    background-color: #ffb3ba !important;
+}

@@ -3,7 +3,7 @@ import React from 'react';
 const loginView = (props) => {
 
     return (
-        <div>
+        <div id="login-view-main">
             <h1 className="app-name">MY TASKS</h1>
             <div className="my-container">
 

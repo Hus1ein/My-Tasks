@@ -3,6 +3,11 @@ body {
     /*background-color: #0747A6 !important;*/
 }
 
+#login-main {
+    height: 400px;
+    position: relative;
+}
+
 
 .title {
     text-align: center;

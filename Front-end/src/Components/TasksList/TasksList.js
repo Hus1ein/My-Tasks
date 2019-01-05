@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import "../../Styles/Tasks-list.css";
 import app from "../../base";
 import Task from "../Task/Task";
+import SideBar from "../SideBar/SideBar";
 const firebase = require("firebase");
 // Required for side-effects
 require("firebase/firestore");
@@ -10,11 +11,12 @@ class TasksList extends Component {
 
     render() {
         return (
-            <div>
-                <div className="col-sm-3 my-task" id="category-todo"
-                     onDragOver={(e)=>this.props.onDragOver(e, "todo")}
-                     onDragLeave={(e)=>this.props.onDragLeave(e, "todo")}
-                     onDrop={(e)=>{this.props.onDrop(e, "todo")}}>
+            <div id="task-list-main">
+                <SideBar
+                    userInfo={this.props.userInfo}
+                    logOutHandler={this.props.logOutHandler}
+                />
+                <div className="col-sm-2 my-task" id="category-todo">
                     <h1 className="task-list-title">To Do</h1>
                     <ul>
                         {
@@ -31,14 +33,20 @@ class TasksList extends Component {
                                 )
                             })
                         }
+                        <li>
+                            <div id="drop-here-todo" className="task drop-here" hidden
+                                 onDragOver={(e)=>this.props.onDragOver(e, "todo")}
+                                 onDragLeave={(e)=>this.props.onDragLeave(e, "todo")}
+                                 onDrop={(e)=>{this.props.onDrop(e, "todo")}}
+                            >
+                                Drop here
+                            </div>
+                        </li>
                     </ul>
                     <button className="btn btn-default new-task-button" onClick={() => this.props.openDialogToCreateTask("todo")}>Add another card</button>
                 </div>
 
-                <div className="col-sm-3 my-task" id="category-doing"
-                     onDragOver={(e)=>this.props.onDragOver(e, "doing")}
-                     onDragLeave={(e)=>this.props.onDragLeave(e, "doing")}
-                     onDrop={(e)=>{this.props.onDrop(e, "doing")}}>
+                <div className="col-sm-2 my-task" id="category-doing">
                     <h1 className="task-list-title">Doing</h1>
                     <ul>
                         {
@@ -55,14 +63,20 @@ class TasksList extends Component {
                                 )
                             })
                         }
+                        <li>
+                            <div id="drop-here-doing" className="task drop-here" hidden
+                                 onDragOver={(e)=>this.props.onDragOver(e, "doing")}
+                                 onDragLeave={(e)=>this.props.onDragLeave(e, "doing")}
+                                 onDrop={(e)=>{this.props.onDrop(e, "doing")}}
+                            >
+                                Drop here
+                            </div>
+                        </li>
                     </ul>
                     <button className="btn btn-default new-task-button" onClick={() => this.props.openDialogToCreateTask("doing")}>Add another card</button>
                 </div>
 
-                <div className="col-sm-3 my-task" id="category-done"
-                     onDragOver={(e)=>this.props.onDragOver(e, "done")}
-                     onDragLeave={(e)=>this.props.onDragLeave(e, "done")}
-                     onDrop={(e)=>{this.props.onDrop(e, "done")}}>
+                <div className="col-sm-2 my-task" id="category-done">
                     <h1 className="task-list-title">Done</h1>
                     <ul>
                         {
@@ -71,7 +85,7 @@ class TasksList extends Component {
                                     <li key={member.id}>
                                         <Task
                                             task={member}
-                                            category={"doing"}
+                                            category={"done"}
                                             deleteTask={() => this.props.deleteTask(member.id, "done")}
                                             onDragStart={this.props.onDragStart}
                                         />
@@ -79,8 +93,20 @@ class TasksList extends Component {
                                 )
                             })
                         }
+                        <li>
+                            <div id="drop-here-done" className="task drop-here" hidden
+                                 onDragOver={(e)=>this.props.onDragOver(e, "done")}
+                                 onDragLeave={(e)=>this.props.onDragLeave(e, "done")}
+                                 onDrop={(e)=>{this.props.onDrop(e, "done")}}
+                            >
+                                Drop here
+                            </div>
+                        </li>
                     </ul>
                     <button className="btn btn-default new-task-button" onClick={() => this.props.openDialogToCreateTask("done")}>Add another card</button>
+                    <div>
+                    </div>
+
                 </div>
 
             </div>

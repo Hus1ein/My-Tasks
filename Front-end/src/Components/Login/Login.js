@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import "../../Styles/login.css";
+import "../../Styles/loader.css";
 import LoginView from './LoginView';
-import axios from "axios";
 import app from "../../base";
 
 class Login extends Component {
@@ -21,36 +21,23 @@ class Login extends Component {
 
             this.setState({'errors': undefined});
             let self = this;
-            /*let bodyFormData = new FormData();
-            bodyFormData.set("username", this.state.username);
-            bodyFormData.set("password", this.state.password);
-            axios({
-                method: 'post',
-                url: 'http://localhost/MyTasks/Back-end/index.php?r=api/login',
-                data: bodyFormData,
-                config: { headers: {'Content-Type': 'multipart/form-data' }}
-            })
-            .then(function (response) {
-                console.log(response.data);
-                localStorage.setItem("session_id", response.data.session_id);
-                //self.setState({result: JSON.stringify(response.data)})
-            })
-            .catch(function (error) {
-                console.log(error);
-            });*/
+            document.getElementById("login-view-main").hidden = true;
+            document.getElementsByClassName("lds-roller")[0].hidden = false;
             try {
                 const user = await app
                     .auth()
                     .signInWithEmailAndPassword(this.state.username, this.state.password);
-
-                console.log(user);
-                this.props.history.push("/go");
+                document.getElementById("login-view-main").hidden = false;
+                document.getElementsByClassName("lds-roller")[0].hidden = true;
+                this.props.history.push("/dashboard");
             } catch (error) {
-                alert(error);
+                document.getElementById("login-view-main").hidden = false;
+                document.getElementsByClassName("lds-roller")[0].hidden = true;
+                this.setState({'errors': "Error: The password is invalid."});
             }
 
         }else {
-            this.setState({'errors': "Enter valid username and password, don't use white space"});
+            this.setState({'errors': "Enter valid username and password, don't use white space."});
         }
 
     };
@@ -71,7 +58,17 @@ class Login extends Component {
 
     render() {
         return (
-            <div>
+            <div id="login-main">
+                <div className="lds-roller" hidden>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
                 <LoginView
                     onUsernameChangeHandler={this.onUsernameChangeHandler}
                     onPasswordChangeHandler={this.onPasswordChangeHandler}
