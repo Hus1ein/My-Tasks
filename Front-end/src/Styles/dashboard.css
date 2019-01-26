@@ -13,6 +13,19 @@
     display: none;
 }
 
+#my-dialog-view-task {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    position: absolute;
+    width: 50%;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 100px;
+    background: #e6e6e6;
+    border-radius: 5px;
+    display: none;
+}
+
 
 .create-new-task-form {
     width: 80%;
@@ -27,12 +40,19 @@
     margin-top: 20px;
 }
 
+.close-view-task {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 20px;
+}
+
 .submit-create-new-task:hover {
     background: #5cb85c !important;
     color: white !important;
 }
 
-.cancel-create-new-task:hover {
+.cancel-create-new-task:hover, .close-view-task:hover{
     background: red !important;
     color: white !important;
 }

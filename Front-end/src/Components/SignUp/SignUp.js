@@ -31,38 +31,24 @@ class SignUp extends Component {
             } else {
                 this.setState({'errors': undefined});
                 let self = this;
-                /*let bodyFormData = new FormData();
-                bodyFormData.set("firstName", this.state.firstName);
-                bodyFormData.set("lastName", this.state.lastName);
-                bodyFormData.set("email", this.state.email);
-                bodyFormData.set("password", this.state.password);
-                axios({
-                    method: 'post',
-                    url: 'http://localhost/MyTasks/Back-end/index.php?r=api/signup',
-                    data: bodyFormData,
-                    config: { headers: {'Content-Type': 'multipart/form-data' }}
-                })
-                    .then(function (response) {
-                        console.log(response.data);
-                        //self.setState({result: JSON.stringify(response.data)})
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });*/
-
+                document.getElementById("sign-up-view-main").hidden = true;
+                document.getElementsByClassName("lds-roller")[0].hidden = false;
                 try {
                     const user = await app
                         .auth()
                         .createUserWithEmailAndPassword(this.state.email, this.state.password);
-                    console.log(user);
-                    //this.props.history.push("/");
+                    document.getElementById("sign-up-view-main").hidden = false;
+                    document.getElementsByClassName("lds-roller")[0].hidden = true;
+                    this.props.history.push("/login");
                 } catch (error) {
-                    alert(error);
+                    document.getElementById("sign-up-view-main").hidden = false;
+                    document.getElementsByClassName("lds-roller")[0].hidden = true;
+                    this.setState({'errors': "Error, Check inputs and try again."});
                 }
             }
 
         }else {
-            this.setState({'errors': "Enter valid username and password, don't use white space"});
+            this.setState({'errors': "Enter valid values"});
         }
 
     };
@@ -97,7 +83,17 @@ class SignUp extends Component {
 
     render() {
         return (
-            <div>
+            <div id="sign-up-main">
+                <div className="lds-roller" hidden>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
                 <SignUpView
                     onFirstNameChangeHandler={this.onFirstNameChangeHandler}
                     onLastNameChangeHandler={this.onLastNameChangeHandler}

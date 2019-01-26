@@ -12,10 +12,12 @@ class Dashboard extends Component {
 
     currentCategory;
     currentUserId;
+
     state = {
         'todo': [],
         'doing': [],
-        'done': []
+        'done': [],
+        'viewTask': {"title": "", "content": ""}
     };
 
     componentWillMount() {
@@ -30,6 +32,7 @@ class Dashboard extends Component {
     openDialogToCreateTask = (category) => {
         this.currentCategory = category;
         document.getElementById('my-dialog-create-task').style.display = 'block';
+        document.getElementById('tasks-lists-main-view').style.pointerEvents = 'none';
         document.getElementById('tasks-lists-main-view').style.opacity = '0.3';
     };
 
@@ -39,6 +42,7 @@ class Dashboard extends Component {
         document.getElementById('new-task-title').value = "";
         document.getElementById('new-task-description').value = "";
         document.getElementById('my-dialog-create-task').style.display = 'none';
+        document.getElementById('tasks-lists-main-view').style.pointerEvents = 'auto';
         document.getElementById('tasks-lists-main-view').style.opacity = '1';
     };
 
@@ -55,12 +59,22 @@ class Dashboard extends Component {
             var newTask = {
                 'title': this.state.taskTitle,
                 'content': this.state.taskDescription,
-                //'date': (new Date()).toDateString(),
+                'date': new Date(),
                 'userId': this.currentUserId
             };
             db.collection(this.currentCategory).add(newTask)
                 .then(function (response) {
+                    let a = newTask.date;
+                    let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                    let year = a.getFullYear();
+                    let month = months[a.getMonth()];
+                    let date = a.getDate();
+                    let hour = a.getHours();
+                    let min = a.getMinutes();
+                    let sec = a.getSeconds();
+                    let dateAndTime = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
                     newTask.id = response.id;
+                    newTask.date = dateAndTime;
                     var category = self.currentCategory;
                     var allTasksByCategory = self.state[category];
                     allTasksByCategory = allTasksByCategory.push(newTask);
@@ -148,6 +162,20 @@ class Dashboard extends Component {
             });
     };
 
+    timestampToDate = (timestamp) => {
+        let dateAndTime;
+        let a = new Date(timestamp * 1000);
+        let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        let year = a.getFullYear();
+        let month = months[a.getMonth()];
+        let date = a.getDate();
+        let hour = a.getHours();
+        let min = a.getMinutes();
+        let sec = a.getSeconds();
+        dateAndTime = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+        return dateAndTime;
+    };
+
     getData = () => {
         this.currentUserId = firebase.auth().currentUser.uid;
         console.log(firebase.auth().currentUser);
@@ -160,17 +188,20 @@ class Dashboard extends Component {
         var todoList = [];
         var doingList = [];
         var doneList = [];
+        let dateAndTime = (new Date()).toDateString();
 
         db.collection("todo").where("userId", "==", this.currentUserId)
             .get()
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
-                    // doc.data() is never undefined for query doc snapshots
+                    if(doc.data().date !== undefined) {
+                        dateAndTime = self.timestampToDate(doc.data().date.seconds);
+                    }
                     todoList.push({
                         'id': doc.id,
                         'title': doc.data().title,
                         'content': doc.data().content,
-                        'date': (new Date()).toDateString()
+                        'date': dateAndTime
                     });
 
                 });
@@ -189,11 +220,14 @@ class Dashboard extends Component {
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     // doc.data() is never undefined for query doc snapshots
+                    if(doc.data().date !== undefined) {
+                        dateAndTime = self.timestampToDate(doc.data().date.seconds);
+                    }
                     doingList.push({
                         'id': doc.id,
                         'title': doc.data().title,
                         'content': doc.data().content,
-                        'date': (new Date()).toDateString()
+                        'date': dateAndTime
                     });
 
                 });
@@ -213,11 +247,14 @@ class Dashboard extends Component {
             .then(function(querySnapshot) {
                 querySnapshot.forEach(function(doc) {
                     // doc.data() is never undefined for query doc snapshots
+                    if(doc.data().date !== undefined) {
+                        dateAndTime = self.timestampToDate(doc.data().date.seconds);
+                    }
                     doneList.push({
                         'id': doc.id,
                         'title': doc.data().title,
                         'content': doc.data().content,
-                        'date': (new Date()).toDateString()
+                        'date': dateAndTime
                     });
 
                 });
@@ -226,7 +263,8 @@ class Dashboard extends Component {
                         'done': doneList,
                     }
                 );
-                console.log(self.state);
+                document.getElementsByClassName("lds-roller")[0].hidden = true;
+                document.getElementById("tasks-lists-main-view").hidden = false;
             })
             .catch(function(error) {
                 console.log("Error getting documents: ", error);
@@ -277,7 +315,6 @@ class Dashboard extends Component {
                 let movedTask = beginCategoryElements[i];
                 endCategoryElements.push(movedTask);
                 beginCategoryElements.splice(i, 1);
-                //TODO change data on firebase
                 this.setState(
                     {
                             beginCategory: beginCategoryElements,
@@ -331,7 +368,7 @@ class Dashboard extends Component {
         await app
             .auth()
             .signOut();
-        this.props.history.push("/");
+        this.props.history.push("/login");
     };
 
     changeHeightOfSideBar = () => {
@@ -343,10 +380,47 @@ class Dashboard extends Component {
         document.getElementById("side-bar").style.height = height + "px";
     };
 
+    onTaskClick = (event, id, category) => {
+        for (let i = 0; i < this.state[category].length; i++) {
+            if (this.state[category][i].id === id) {
+                this.setState({
+                    "viewTask": {
+                        "title": this.state[category][i].title,
+                        "content": this.state[category][i].content,
+                    }
+                });
+                break;
+            }
+        } 
+
+        document.getElementById('my-dialog-view-task').style.display = 'block';
+        document.getElementById('tasks-lists-main-view').style.pointerEvents = 'none';
+        document.getElementById('tasks-lists-main-view').style.opacity = '0.3';
+
+    };
+
+    closeDialogToViewTask = (event) => {
+        event.preventDefault();
+        document.getElementById('my-dialog-view-task').style.display = 'none';
+        document.getElementById('tasks-lists-main-view').style.pointerEvents = 'auto';
+        document.getElementById('tasks-lists-main-view').style.opacity = '1';
+
+    };
+
     render() {
         return (
             <div>
-                <div id="tasks-lists-main-view">
+                <div className="lds-roller">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </div>
+                <div id="tasks-lists-main-view" hidden>
                     <TasksList
                         openDialogToCreateTask={this.openDialogToCreateTask}
                         deleteTask={this.deleteTask}
@@ -359,6 +433,7 @@ class Dashboard extends Component {
                         onDragStart={this.onDragStart}
                         userInfo={this.state.userInfo}
                         logOutHandler={this.logOutHandler}
+                        onTaskClick={this.onTaskClick}
                     />
                 </div>
                 <div id="my-dialog-create-task">
@@ -375,6 +450,18 @@ class Dashboard extends Component {
                         </div>
                         <button className="btn btn-default submit-create-new-task" onClick={this.submitCreateNewTask}>Create New Task</button>
                         <button className="btn btn-default cancel-create-new-task" onClick={this.closeDialogToCreateTask}>Cancel</button>
+                    </form>
+                </div>
+
+                <div id="my-dialog-view-task">
+                    <form className="create-new-task-form">
+                        <div className="form-group">
+                            <p>Task title : {this.state.viewTask.title}</p>
+                        </div>
+                        <div className="form-group">
+                            <p>Task content : {this.state.viewTask.content}</p>
+                        </div>
+                        <button className="btn btn-default close-view-task" onClick={this.closeDialogToViewTask}>Close</button>
                     </form>
                 </div>
             </div>

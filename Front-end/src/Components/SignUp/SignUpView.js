@@ -3,7 +3,7 @@ import React from 'react';
 const signUpView = (props) => {
 
     return (
-        <div>
+        <div id="sign-up-view-main">
             <h1 className="sign-up-app-name">MY TASKS</h1>
             <div className="my-container">
                 <h1 className="title">Sign up</h1>

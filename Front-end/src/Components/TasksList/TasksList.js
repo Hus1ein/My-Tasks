@@ -10,6 +10,7 @@ require("firebase/firestore");
 class TasksList extends Component {
 
     render() {
+        //TODO Fix the location of the side bar
         return (
             <div id="task-list-main">
                 <SideBar
@@ -28,6 +29,7 @@ class TasksList extends Component {
                                             category={"todo"}
                                             deleteTask={() => this.props.deleteTask(member.id, "todo")}
                                             onDragStart={this.props.onDragStart}
+                                            onTaskClick={this.props.onTaskClick}
                                         />
                                     </li>
                                 )
@@ -58,6 +60,7 @@ class TasksList extends Component {
                                             category={"doing"}
                                             deleteTask={() => this.props.deleteTask(member.id, "doing")}
                                             onDragStart={this.props.onDragStart}
+                                            onTaskClick={this.props.onTaskClick}
                                         />
                                     </li>
                                 )
@@ -88,6 +91,7 @@ class TasksList extends Component {
                                             category={"done"}
                                             deleteTask={() => this.props.deleteTask(member.id, "done")}
                                             onDragStart={this.props.onDragStart}
+                                            onTaskClick={this.props.onTaskClick}
                                         />
                                     </li>
                                 )
