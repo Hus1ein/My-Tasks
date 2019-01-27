@@ -33,7 +33,7 @@ class Login extends Component {
             } catch (error) {
                 document.getElementById("login-view-main").hidden = false;
                 document.getElementsByClassName("lds-roller")[0].hidden = true;
-                this.setState({'errors': "Error: The password is invalid."});
+                this.setState({'errors': "Error: Try again."});
             }
 
         }else {

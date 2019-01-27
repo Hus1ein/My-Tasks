@@ -5,7 +5,7 @@ const signUpView = (props) => {
     return (
         <div id="sign-up-view-main">
             <h1 className="sign-up-app-name">MY TASKS</h1>
-            <div className="my-container">
+            <div className="my-container-sign-up">
                 <h1 className="title">Sign up</h1>
                 <div className="input-form">
                     <form>

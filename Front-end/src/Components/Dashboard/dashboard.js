@@ -21,7 +21,7 @@ class Dashboard extends Component {
     };
 
     componentWillMount() {
-        this.getData();
+        this.getData(); // Get all tasks from server
         this.getUserInfo();
     }
 
@@ -49,7 +49,8 @@ class Dashboard extends Component {
     submitCreateNewTask = (event) => {
         event.preventDefault();
         var self = this;
-        if (this.currentCategory !== null) {
+        if (this.currentCategory !== null && this.state.taskTitle !== undefined && this.state.taskTitle !== "" && this.state.taskDescription !== undefined
+            && this.state.taskDescription !== "") {
             var db = firebase.firestore();
 
             db.settings({
@@ -64,6 +65,7 @@ class Dashboard extends Component {
             };
             db.collection(this.currentCategory).add(newTask)
                 .then(function (response) {
+                    // Change format od TaskDate to be String
                     let a = newTask.date;
                     let months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
                     let year = a.getFullYear();
@@ -73,11 +75,15 @@ class Dashboard extends Component {
                     let min = a.getMinutes();
                     let sec = a.getSeconds();
                     let dateAndTime = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
-                    newTask.id = response.id;
                     newTask.date = dateAndTime;
+
+                    // Add id for task
+                    newTask.id = response.id;
+
+                    //Push the new task to tasks array
                     var category = self.currentCategory;
                     var allTasksByCategory = self.state[category];
-                    allTasksByCategory = allTasksByCategory.push(newTask);
+                    allTasksByCategory = allTasksByCategory.unshift(newTask);
                     self.setState({
                         category: allTasksByCategory
                     });
@@ -143,7 +149,6 @@ class Dashboard extends Component {
             url: 'https://json.geoiplookup.io',
         })
             .then(function (response) {
-                console.log(response.data);
                 self.setState({
                     'userInfo': {
                         'ip': response.data.ip,
@@ -178,7 +183,6 @@ class Dashboard extends Component {
 
     getData = () => {
         this.currentUserId = firebase.auth().currentUser.uid;
-        console.log(firebase.auth().currentUser);
         var db = firebase.firestore();
 
         db.settings({
@@ -215,6 +219,7 @@ class Dashboard extends Component {
                 console.log("Error getting documents: ", error);
             });
 
+        dateAndTime = (new Date()).toDateString();
         db.collection("doing").where("userId", "==", this.currentUserId)
             .get()
             .then(function(querySnapshot) {
@@ -242,6 +247,7 @@ class Dashboard extends Component {
                 console.log("Error getting documents: ", error);
             });
 
+        dateAndTime = (new Date()).toDateString();
         db.collection("done").where("userId", "==", this.currentUserId)
             .get()
             .then(function(querySnapshot) {
@@ -305,7 +311,6 @@ class Dashboard extends Component {
         document.getElementsByClassName("drop-here")[1].hidden  = true;
         document.getElementsByClassName("drop-here")[2].hidden  = true;
         let id = event.dataTransfer.getData("id");
-        console.log(id);
         let beginCategory = event.dataTransfer.getData("category");
         document.getElementById("category-" + endCategory).style.background = "rgb(0, 121, 191)";
         let beginCategoryElements = this.state[beginCategory];
@@ -332,7 +337,7 @@ class Dashboard extends Component {
                 var newTask = {
                     'title': movedTask.title,
                     'content': movedTask.content,
-                    //'date': (new Date()).toDateString(),
+                    'date': new Date(movedTask.date),
                     'userId': self.currentUserId
                 };
                 db.collection(endCategory).add(newTask)
@@ -340,7 +345,6 @@ class Dashboard extends Component {
                         for (let j = 0; j < self.state[endCategory].length; j++) {
                             if (endCategoryElements[j].id == id)  {
                                 endCategoryElements[j].id = response.id;
-                                console.log(endCategoryElements[j].id);
                                 self.setState({endCategory: endCategoryElements});
                             }
                         }

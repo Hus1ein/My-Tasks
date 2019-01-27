@@ -5,10 +5,10 @@ const loginView = (props) => {
     return (
         <div id="login-view-main">
             <h1 className="app-name">MY TASKS</h1>
-            <div className="my-container">
+            <div className="my-container-log-in">
 
                 <h1>Log in</h1>
-                <h4>or <a>create an account</a></h4>
+                <h4>or <a href="/signup">create an account</a></h4>
                 <div className="input-form">
                     <form>
 
@@ -39,6 +39,7 @@ const loginView = (props) => {
             </div>
         </div>
     );
+
 };
 
 export default loginView;

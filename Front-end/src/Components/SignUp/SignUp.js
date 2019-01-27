@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import "../../Styles/signup.css";
 import SignUpView from './SignUpView';
-import axios from "axios";
 import app from "../../base";
-import { withRouter } from "react-router";
 
 class SignUp extends Component {
 

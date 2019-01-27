@@ -175,7 +175,8 @@
 }
 
 #first-section-image {
-    margin-left: 85px;
+
+    max-width: 100%;
 }
 
 #second-section-image {

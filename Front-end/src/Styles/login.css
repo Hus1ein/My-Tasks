@@ -17,7 +17,7 @@ body {
     text-align: center;
     margin-top: 100px;
 }
-.my-container {
+.my-container-log-in {
     margin-top: 50px;
     margin-left: 35%;
     margin-right: 35%;
@@ -44,3 +44,10 @@ body {
     font-size: 17px;
 }
 
+@media all and (max-width: 1500px) {
+    .my-container-log-in {
+        margin-left: 10%;
+        margin-right: 10%;
+        width: 80%;
+    }
+}

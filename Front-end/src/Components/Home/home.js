@@ -13,7 +13,7 @@ const homeView = (props) => {
             "linkedin" : "https://www.linkedin.com/in/haris-barucija-715745160/",
         },{
             "name" : "Hussain Abdel-ilah",
-            "photo" : "https://scontent.fsjj1-1.fna.fbcdn.net/v/t1.0-9/43476361_2193441644205135_7884036101059379200_n.jpg?_nc_cat=108&_nc_ht=scontent.fsjj1-1.fna&oh=312a174368ee2fda6e87db386be92226&oe=5C3E75A5",
+            "photo" : "https://scontent.fsjj1-1.fna.fbcdn.net/v/t1.0-9/43476361_2193441644205135_7884036101059379200_n.jpg?_nc_cat=108&_nc_ht=scontent.fsjj1-1.fna&oh=08495b0226fd37396b4bf4fbff093082&oe=5CB51CA5",
             "facebook": "https://www.facebook.com/hussain.aabd",
             "linkedin" : "https://www.linkedin.com/in/hussain-abdel-ilah-8b05b3127/",
         },{
@@ -43,6 +43,7 @@ const homeView = (props) => {
                             </ul>
 
                             <ul className="nav navbar-nav navbar-right">
+                                <li><a href="/snow" className="my-navbar-link">Snow</a></li>
                                 <li><a href="/login" className="my-navbar-link">Log In</a></li>
                                 <li>
                                     <form action="/signup">
@@ -59,16 +60,18 @@ const homeView = (props) => {
             <section id="first-section">
                 <div className="home-container">
                     <div className="row">
-                        <div className="col-md-6">
+                        <div className="col-md-6 col-sm-12">
                             <h1 className="first-section-first-title">Organize life</h1>
                             <h1 className="first-section-second-title">Then go enjoy it…</h1>
                             <p className="first-section-paragraph"><span className="my-tasks">My Tasks</span> brings
                                 a shared perspective to any of life’s projects in a fun, flexible, and rewarding
                                 way.</p>
                         </div>
-                        <div className="col-md-6"><img id="first-section-image"
-                                                       src="https://d3ptyyxy2at9ui.cloudfront.net/a11f874bc2b20e7cb0edb2e19fc4ddb1.png"
-                                                       width="623"/></div>
+                        <div className="col-md-6 col-sm-12">
+                            <img id="first-section-image"
+                                 src="https://d3ptyyxy2at9ui.cloudfront.net/a11f874bc2b20e7cb0edb2e19fc4ddb1.png"
+                                 width="623"/>
+                        </div>
                     </div>
                 </div>
             </section>
