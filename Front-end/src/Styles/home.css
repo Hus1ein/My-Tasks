@@ -175,12 +175,11 @@
 }
 
 #first-section-image {
-
     max-width: 100%;
 }
 
 #second-section-image {
-    margin-left: 35px;
+    max-width: 100%;
 }
 
 #third-section-first-image{
@@ -207,8 +206,7 @@
 
 #fourth-section-image {
     width:700px;
-    margin-left: 35px;
-    margin-right: 100px;
+    max-width: 100%;
 }
 
 .fifth-section-image{
