@@ -12,12 +12,13 @@ class Dashboard extends Component {
 
     currentCategory;
     currentUserId;
+    currentUserEmail;
 
     state = {
         'todo': [],
         'doing': [],
         'done': [],
-        'viewTask': {"title": "", "content": ""}
+        'viewTask': {"title": "", "content": "", "date": ""}
     };
 
     componentWillMount() {
@@ -151,6 +152,7 @@ class Dashboard extends Component {
             .then(function (response) {
                 self.setState({
                     'userInfo': {
+                        'email': self.currentUserEmail,
                         'ip': response.data.ip,
                         'country': response.data.country_name,
                         'currency': response.data.currency_name,
@@ -183,6 +185,8 @@ class Dashboard extends Component {
 
     getData = () => {
         this.currentUserId = firebase.auth().currentUser.uid;
+        this.currentUserEmail = firebase.auth().currentUser.email;
+        console.log(firebase.auth().currentUser.email);
         var db = firebase.firestore();
 
         db.settings({
@@ -201,7 +205,7 @@ class Dashboard extends Component {
                     if(doc.data().date !== undefined) {
                         dateAndTime = self.timestampToDate(doc.data().date.seconds);
                     }
-                    todoList.push({
+                    todoList.unshift({
                         'id': doc.id,
                         'title': doc.data().title,
                         'content': doc.data().content,
@@ -228,7 +232,7 @@ class Dashboard extends Component {
                     if(doc.data().date !== undefined) {
                         dateAndTime = self.timestampToDate(doc.data().date.seconds);
                     }
-                    doingList.push({
+                    doingList.unshift({
                         'id': doc.id,
                         'title': doc.data().title,
                         'content': doc.data().content,
@@ -256,7 +260,7 @@ class Dashboard extends Component {
                     if(doc.data().date !== undefined) {
                         dateAndTime = self.timestampToDate(doc.data().date.seconds);
                     }
-                    doneList.push({
+                    doneList.unshift({
                         'id': doc.id,
                         'title': doc.data().title,
                         'content': doc.data().content,
@@ -391,6 +395,7 @@ class Dashboard extends Component {
                     "viewTask": {
                         "title": this.state[category][i].title,
                         "content": this.state[category][i].content,
+                        "date": this.state[category][i].date
                     }
                 });
                 break;
@@ -460,10 +465,13 @@ class Dashboard extends Component {
                 <div id="my-dialog-view-task">
                     <form className="create-new-task-form">
                         <div className="form-group">
-                            <p>Task title : {this.state.viewTask.title}</p>
+                            <p><span className="my-dialog-view-task-title">Task title :</span> {this.state.viewTask.title}</p>
                         </div>
                         <div className="form-group">
-                            <p>Task content : {this.state.viewTask.content}</p>
+                            <p><span className="my-dialog-view-task-title">Task content :</span> {this.state.viewTask.content}</p>
+                        </div>
+                        <div className="form-group">
+                            <p><span className="my-dialog-view-task-title">Created at :</span> {this.state.viewTask.date}</p>
                         </div>
                         <button className="btn btn-default close-view-task" onClick={this.closeDialogToViewTask}>Close</button>
                     </form>

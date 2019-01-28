@@ -56,3 +56,8 @@
     background: red !important;
     color: white !important;
 }
+
+.my-dialog-view-task-title {
+    font-size: 17px;
+    font-weight: bold;
+}

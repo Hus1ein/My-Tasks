@@ -11,16 +11,16 @@
 }
 
 #side-bar-profile-image {
-    float: left;
+
     margin-left: 50px;
     margin-top: 50px;
 }
 
 #side-bar-profile-username {
-    float: left;
-    margin-left: 20px;
-    margin-top: 70px;
-    font-size: 25px;
+
+    margin-left: 50px;
+    margin-top: 10px;
+    font-size: 22px;
     color: white;
 }
 .clear-left {

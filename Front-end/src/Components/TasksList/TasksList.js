@@ -17,7 +17,7 @@ class TasksList extends Component {
                     userInfo={this.props.userInfo}
                     logOutHandler={this.props.logOutHandler}
                 />
-                <div className="col-sm-2 my-task" id="category-todo">
+                <div className="col-sm-12 col-md-6 col-lg-2 my-task" id="category-todo">
                     <h1 className="task-list-title">To Do</h1>
                     <ul>
                         {
@@ -48,7 +48,7 @@ class TasksList extends Component {
                     <button className="btn btn-default new-task-button" onClick={() => this.props.openDialogToCreateTask("todo")}>Add another card</button>
                 </div>
 
-                <div className="col-sm-2 my-task" id="category-doing">
+                <div className="col-sm-12 col-md-6 col-lg-2 my-task" id="category-doing">
                     <h1 className="task-list-title">Doing</h1>
                     <ul>
                         {
@@ -79,7 +79,7 @@ class TasksList extends Component {
                     <button className="btn btn-default new-task-button" onClick={() => this.props.openDialogToCreateTask("doing")}>Add another card</button>
                 </div>
 
-                <div className="col-sm-2 my-task" id="category-done">
+                <div className="col-sm-12 col-md-6 col-lg-2 my-task" id="category-done">
                     <h1 className="task-list-title">Done</h1>
                     <ul>
                         {

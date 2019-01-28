@@ -1,4 +1,5 @@
 import React from 'react';
+import adidas from "./adidas.jpg";
 
 const loginView = (props) => {
 
@@ -36,6 +37,10 @@ const loginView = (props) => {
 
                 <a><h3>Forgot your password? </h3></a>
 
+            </div>
+
+            <div className="ads">
+                <a href="https://www.adidas.com/" target="_blank"><img className="login-ads" src={adidas} height="250px" width="60%"/></a>
             </div>
         </div>
     );

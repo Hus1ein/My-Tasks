@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import "../../Styles/sidebar.css";
 import app from "../../base";
-import profileImage from "../../hussain.jpg";
+import profileImage from "../../user.png";
 
 
 class SideBar extends Component {
 
     render() {
         let info = "";
+        let email = "";
         if(this.props.userInfo !== undefined) {
+            email = this.props.userInfo.email;
             info = (
                 <ul>
                     <li className="side-bar-user-row">
@@ -44,9 +46,9 @@ class SideBar extends Component {
         }
 
         return (
-            <div className="col-sm-3" id="side-bar">
+            <div className="col-sm-12 col-md-6 col-lg-3" id="side-bar">
                 <img src={profileImage} width="100px" height="100px" className="rounded-img" id="side-bar-profile-image"/>
-                <p id="side-bar-profile-username">Hussain Abdel-ilah</p>
+                <p id="side-bar-profile-username">{email}</p>
                 <div className="clear-left"/>
 
                 <hr className="side-bar-hr"/>
